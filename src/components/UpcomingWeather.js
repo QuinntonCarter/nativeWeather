@@ -3,10 +3,11 @@ import { Feather } from '@expo/vector-icons'
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    color: 'red'
   }
 })
-const data = [
+const DATA = [
   {
     dt: 'wow everything fine',
     min: 939,
@@ -23,29 +24,31 @@ const data = [
     max: 938483282383
   }
 ]
-const Item = (props) => {
-  const { dt, min, max } = props
+function Item({ item }) {
   return (
     <View>
-      <Feather name={'sun'} size={50} color={'white'} />
-      <Text> {dt} </Text>
-      <Text>{min}</Text>
-      <Text>{max}</Text>
+      <Feather name={'sun'} size={50} color={'black'} />
+      <Text> {item.dt} </Text>
+      <Text> {item.min} </Text>
+      <Text> {item.max} </Text>
     </View>
   )
 }
 
 export default function UpcomingWeather() {
-  const renderedItem = ({ item }) => (
-    <Item
-      condition={item.weather[0].main}
-      desc={item.weather[0].description}
-    ></Item>
-  )
   return (
     <SafeAreaView style={styles.container}>
       <Text> upcoming weather </Text>
-      <FlatList data={data} renderItem={renderedItem} />
+      <FlatList
+        data={DATA}
+        // adds key to each item in flatlist
+        keyExtractor={(item) => item.min + item.max}
+        renderItem={({ item }) => <Item item={item} />}
+        // renders divider between each item in flatlist
+        ItemSeparatorComponent={() => (
+          <View style={{ backgroundColor: 'red', height: 2 }} />
+        )}
+      />
     </SafeAreaView>
   )
 }
