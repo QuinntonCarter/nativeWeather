@@ -10,17 +10,20 @@ const styles = StyleSheet.create({
   }
 })
 
-export default function LoadingIndicator() {
-  const [loading, setLoading] = useState(true)
+export default function LoadingIndicator({
+  loading,
+  setLoading,
+  weather,
+  setWeather
+}) {
   const [errorMsg, setErrorMsg] = useState(null)
-  const [weather, setWeather] = useState([])
   const [latitude, setLatitude] = useState([])
   const [longitude, setLongitude] = useState([])
 
   const fetchWeatherData = async () => {
     try {
       const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${location.coords.latitude}&lon=${location.coords.longitude}&appid=${WEATHER_API_KEY}`
+        `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${latitude}&lon=${longitude}&appid=${WEATHER_API_KEY}`
       )
       const data = await res.json()
       setWeather(data)
@@ -39,14 +42,13 @@ export default function LoadingIndicator() {
         return
       }
       let location = await Location.getCurrentPositionAsync({})
+      location && console.log('location information', location)
       setLatitude(location.coords.latitude)
       setLongitude(location.coords.longitude)
       await fetchWeatherData()
     })()
   }, [longitude, latitude])
-  if (weather) {
-    console.log(weather)
-  }
+  weather && console.log('weather', weather)
   if (loading) {
     return (
       <View style={styles.container}>
