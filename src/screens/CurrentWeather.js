@@ -1,7 +1,6 @@
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import RowText from '../components/RowText'
-import { weatherType } from '../utils/weatherType'
 
 const styles = StyleSheet.create({
   wrapper: {

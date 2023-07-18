@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import * as Location from 'expo-location'
+import { WEATHER_API_KEY } from '@env'
 
 const styles = StyleSheet.create({
   container: {
@@ -10,8 +11,10 @@ const styles = StyleSheet.create({
 })
 
 export default function LoadingIndicator() {
+  const [loading, setLoading] = useState(true)
   const [location, setLocation] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
+  console.log(WEATHER_API_KEY)
 
   useEffect(() => {
     ;(async () => {
@@ -22,7 +25,7 @@ export default function LoadingIndicator() {
       }
       let location = await Location.getCurrentPositionAsync({})
       setLocation(location)
-      return console.log(location)
+      return
     })()
   }, [])
   if (loading) {
