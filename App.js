@@ -4,15 +4,15 @@ import LoadingIndicator from './src/components/LoadingIndicator'
 import useGetWeather from './src/hooks/useGetWeather'
 
 export default function App() {
+  // useCallback to cache api response? look @ tyler's code in repcap.com
   const [loading, errorMsg, weather] = useGetWeather()
-  console.log('hook responses', loading, errorMsg, weather)
 
   return (
     <NavigationContainer>
-      {weather && weather.current ? (
+      {!loading ? (
         <Tabs weather={weather} />
       ) : (
-        <LoadingIndicator />
+        <LoadingIndicator loading={loading} />
       )}
     </NavigationContainer>
   )

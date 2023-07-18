@@ -8,7 +8,6 @@ export default function useGetWeather() {
   const [weather, setWeather] = useState([])
   const [latitude, setLatitude] = useState([])
   const [longitude, setLongitude] = useState([])
-  const [location, setLocation] = useState({})
 
   const { WEATHER_API_KEY } = process.env
 

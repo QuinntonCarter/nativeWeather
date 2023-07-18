@@ -6,7 +6,8 @@ import City from '../screens/City'
 
 const { Navigator, Screen } = createBottomTabNavigator()
 
-export default function Tabs() {
+export default function Tabs({ weather }) {
+  weather && console.log('weather from tabs', weather)
   return (
     <Navigator
       screenOptions={{
