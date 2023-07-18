@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   locationInfo: {
-    justifyConent: 'center',
+    justifyContent: 'center',
     alignSelf: 'center'
   },
   cityName: {

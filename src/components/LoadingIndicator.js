@@ -12,10 +12,25 @@ const styles = StyleSheet.create({
 
 export default function LoadingIndicator() {
   const [loading, setLoading] = useState(true)
-  const [location, setLocation] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
-  console.log(WEATHER_API_KEY)
+  const [weather, setWeather] = useState([])
+  const [latitude, setLatitude] = useState([])
+  const [longitude, setLongitude] = useState([])
 
+  const fetchWeatherData = async () => {
+    try {
+      const res = await fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${location.coords.latitude}&lon=${location.coords.longitude}&appid=${WEATHER_API_KEY}`
+      )
+      const data = await res.json()
+      setWeather(data)
+      setLoading(false)
+    } catch (err) {
+      setErrorMsg('Could not fetch weather')
+    } finally {
+      setLoading(false)
+    }
+  }
   useEffect(() => {
     ;(async () => {
       let { status } = await Location.requestForegroundPermissionsAsync()
@@ -24,10 +39,14 @@ export default function LoadingIndicator() {
         return
       }
       let location = await Location.getCurrentPositionAsync({})
-      setLocation(location)
-      return
+      setLatitude(location.coords.latitude)
+      setLongitude(location.coords.longitude)
+      await fetchWeatherData()
     })()
-  }, [])
+  }, [longitude, latitude])
+  if (weather) {
+    console.log(weather)
+  }
   if (loading) {
     return (
       <View style={styles.container}>
