@@ -1,7 +1,4 @@
-import { useState, useEffect } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
-import * as Location from 'expo-location'
-// import { WEATHER_API_KEY } from '@env'
 
 const styles = StyleSheet.create({
   container: {
@@ -10,52 +7,10 @@ const styles = StyleSheet.create({
   }
 })
 
-export default function LoadingIndicator({
-  loading,
-  setLoading,
-  weather,
-  setWeather
-}) {
-  const [errorMsg, setErrorMsg] = useState(null)
-  const [latitude, setLatitude] = useState([])
-  const [longitude, setLongitude] = useState([])
-
-  const { WEATHER_API_KEY } = process.env
-
-  const fetchWeatherData = async () => {
-    try {
-      const res = await fetch(
-        `https://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${latitude}${longitude}&aqi=yes`
-      )
-      const data = await res.json()
-      setWeather(data)
-      setLoading(false)
-    } catch (err) {
-      setErrorMsg('Could not fetch weather')
-    } finally {
-      setLoading(false)
-    }
-  }
-  useEffect(() => {
-    ;(async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync()
-      if (status !== 'granted') {
-        setErrorMsg('Location permissions denied')
-        return
-      }
-      let location = await Location.getCurrentPositionAsync({})
-      location && console.log('location information', location)
-      setLatitude(location.coords.latitude)
-      setLongitude(location.coords.longitude)
-      await fetchWeatherData()
-    })()
-  }, [longitude, latitude])
-  weather && console.log('weather', weather)
-  if (loading) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size={'large'} color={'darkblue'} />
-      </View>
-    )
-  }
+export default function LoadingIndicator() {
+  return (
+    <View style={styles.container}>
+      <ActivityIndicator size={'large'} color={'darkblue'} />
+    </View>
+  )
 }

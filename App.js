@@ -1,21 +1,19 @@
-import { useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import Tabs from './src/components/Tabs'
 import LoadingIndicator from './src/components/LoadingIndicator'
+import useGetWeather from './src/hooks/useGetWeather'
 
 export default function App() {
-  const [weather, setWeather] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [loading, errorMsg, weather] = useGetWeather()
+  console.log('hook responses', loading, errorMsg, weather)
 
   return (
     <NavigationContainer>
-      <Tabs />
-      <LoadingIndicator
-        loading={loading}
-        setLoading={setLoading}
-        weather={weather}
-        setWeather={setWeather}
-      />
+      {weather && weather.current ? (
+        <Tabs weather={weather} />
+      ) : (
+        <LoadingIndicator />
+      )}
     </NavigationContainer>
   )
 }
