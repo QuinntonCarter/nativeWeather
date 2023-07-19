@@ -7,10 +7,12 @@ const styles = StyleSheet.create({
   }
 })
 
-export default function LoadingIndicator({ loading, weather }) {
-  return loading ? (
+export default function LoadingIndicator({ loading }) {
+  // if (loading) {
+  return (
     <View style={styles.container}>
       <ActivityIndicator size={'large'} color={'darkblue'} />
     </View>
-  ) : null
+  )
+  // }
 }
