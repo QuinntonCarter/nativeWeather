@@ -1,12 +1,34 @@
+import { memo } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Feather } from '@expo/vector-icons'
 import CurrentWeather from '../screens/CurrentWeather'
 import UpcomingWeather from '../screens/UpcomingWeather'
 import City from '../screens/City'
+import moment from 'moment'
 
 const { Navigator, Screen } = createBottomTabNavigator()
 
-export default function Tabs({ weather }) {
+export default memo(function Tabs({ weather }) {
+  const { name, region: state, localtime } = weather.location
+  const {
+    temp_f,
+    temp_c,
+    feelslike_f,
+    feelslike_c,
+    condition: { text: conditionDesc },
+    gust_mph,
+    gust_kph,
+    wind_dir,
+    precip_in,
+    precip_mm,
+    humidity,
+    air_quality
+  } = weather.current
+  console.log(
+    'test',
+    moment(weather.location.localtime).format('MMM DD YYYY LTS')
+  )
+  // destructor weather's props here and send individual pieces down to prevent uncessary re-renders
   return (
     <Navigator
       screenOptions={{
@@ -29,7 +51,6 @@ export default function Tabs({ weather }) {
     >
       <Screen
         name={'Current'}
-        component={CurrentWeather}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather
@@ -39,10 +60,25 @@ export default function Tabs({ weather }) {
             />
           )
         }}
-      />
+      >
+        {/* current weather (not as detailed) */}
+        {() => (
+          <CurrentWeather
+            city={name}
+            timeDay={moment(localtime).format('MMM DD YYYY LTS')}
+            temp={`${temp_f}˚` || temp_c}
+            feelsLike={`${feelslike_f}˚` || feelslike_c}
+            conditionDesc={conditionDesc}
+            gust={gust_mph || gust_kph}
+            wind_dir={wind_dir}
+            precip={precip_in || precip_mm}
+            humidity={humidity}
+            air_quality={air_quality}
+          />
+        )}
+      </Screen>
       <Screen
         name={'Upcoming'}
-        component={UpcomingWeather}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather
@@ -52,10 +88,12 @@ export default function Tabs({ weather }) {
             />
           )
         }}
-      />
+      >
+        {/* upcoming forecast for area */}
+        {() => <UpcomingWeather city={name} />}
+      </Screen>
       <Screen
         name={'City'}
-        component={City}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather
@@ -65,7 +103,16 @@ export default function Tabs({ weather }) {
             />
           )
         }}
-      />
+      >
+        {/* more detailed info for location */}
+        {() => (
+          <City
+            weather={weather}
+            city={name}
+            timeDay={moment(localtime).format('MMM DD YYYY LTS')}
+          />
+        )}
+      </Screen>
     </Navigator>
   )
-}
+})

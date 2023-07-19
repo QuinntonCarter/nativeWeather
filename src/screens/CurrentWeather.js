@@ -40,14 +40,31 @@ const styles = StyleSheet.create({
     fontSize: 30
   }
 })
-export default function CurrentWeather() {
+export default function CurrentWeather({
+  timeDay,
+  city,
+  temp,
+  feelsLike,
+  conditionDesc,
+  gust,
+  wind_dir,
+  precip,
+  humidity,
+  air_quality
+}) {
   const { highLowWrapper, highLow, bodyWrapper, description, message } = styles
+  console.log('currentWeather', city)
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.container}>
+        {/* customize returned images using custom hook maybe */}
         <Feather name="sun" size={100} color="black" />
-        <Text style={styles.temp}> 50 </Text>
-        <Text style={styles.feels}> Feels like 50 </Text>
+        {/* style * */}
+        <Text> {city} </Text>
+        <Text style={styles.temp}> {conditionDesc} </Text>
+        <Text style={styles.temp}> {temp} </Text>
+        <Text style={styles.feels}> Feels like {feelsLike}</Text>
+        {/* maybe return this info here from forecast apo call as well? or omit */}
         <RowText
           wrapper={highLowWrapper}
           textOne={'High: 50'}
@@ -56,13 +73,13 @@ export default function CurrentWeather() {
           textTwoStyle={highLow}
         />
       </View>
-      <RowText
+      {/* <RowText
         wrapper={bodyWrapper}
         textOne={`It's sunny`}
         textOneStyle={description}
         textTwo={`It's perfect t-shirt weather`}
         textTwoStyle={message}
-      />
+      /> */}
     </SafeAreaView>
   )
 }

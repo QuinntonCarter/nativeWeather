@@ -1,18 +1,19 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import * as Location from 'expo-location'
-import * as moment from 'moment'
 
 export default function useGetWeather() {
+  // returned
   const [loading, setLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState(null)
   const [weather, setWeather] = useState([])
+  // local state(s)
   const [latitude, setLatitude] = useState([])
   const [longitude, setLongitude] = useState([])
   const [location, setLocation] = useState()
 
   const { WEATHER_API_KEY } = process.env
 
-  const fetchWeatherData = useCallback(async () => {
+  const fetchWeatherData = useMemo(async () => {
     if (!location) {
       console.log('retrieving location')
       return
@@ -33,7 +34,7 @@ export default function useGetWeather() {
   useEffect(() => {
     ;(async () => {
       try {
-        console.log('try')
+        console.log('location interval')
         let { status } = await Location.requestForegroundPermissionsAsync()
         if (status !== 'granted') {
           setErrorMsg(`Location permission denied ${status}`)
@@ -47,9 +48,9 @@ export default function useGetWeather() {
         setErrorMsg('Location permissions denied')
         return
       } finally {
-        await fetchWeatherData()
+        await fetchWeatherData
       }
     })()
   }, [fetchWeatherData])
-  return [loading, errorMsg, weather]
+  return [loading, errorMsg, weather, location]
 }

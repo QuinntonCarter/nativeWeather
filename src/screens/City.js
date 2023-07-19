@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export default function City() {
+export default function City({ timeDay, city }) {
   const {
     text,
     locationInfo,

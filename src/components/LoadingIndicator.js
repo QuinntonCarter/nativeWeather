@@ -7,12 +7,11 @@ const styles = StyleSheet.create({
   }
 })
 
-export default function LoadingIndicator({ loading }) {
-  // if (loading) {
+export default function LoadingIndicator() {
+  console.log('loading component reload')
   return (
     <View style={styles.container}>
       <ActivityIndicator size={'large'} color={'darkblue'} />
     </View>
   )
-  // }
 }

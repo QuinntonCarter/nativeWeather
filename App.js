@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import Tabs from './src/components/Tabs'
 import LoadingIndicator from './src/components/LoadingIndicator'
 import useGetWeather from './src/hooks/useGetWeather'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
 const styles = StyleSheet.create({
   container: {
@@ -12,9 +12,10 @@ const styles = StyleSheet.create({
 })
 
 export default function App() {
+  const [loading, errorMsg, weather, location] = useGetWeather()
+  // ** check if location area and weather location area match, if don't, return time with results in tab **
   // useCallback to cache api response? look @ tyler's code in repcap.com
-  const [loading, errorMsg, weather] = useGetWeather()
-  console.log('weathr', weather)
+  console.log('app loaded')
   if (weather && weather.current && !loading) {
     return (
       <NavigationContainer>
