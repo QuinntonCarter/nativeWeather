@@ -52,7 +52,16 @@ export default function CurrentWeather({
   humidity,
   air_quality
 }) {
-  const { highLowWrapper, highLow, bodyWrapper, description, message } = styles
+  const {
+    highLowWrapper,
+    highLow,
+    bodyWrapper,
+    description,
+    message,
+    feels,
+    wrapper,
+    container
+  } = styles
   console.log('currentWeather', city)
   return (
     <SafeAreaView style={styles.wrapper}>
