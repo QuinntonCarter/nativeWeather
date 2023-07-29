@@ -1,6 +1,7 @@
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import RowText from '../components/RowText'
+import { useRoute } from '@react-navigation/native'
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -62,25 +63,31 @@ export default function CurrentWeather({
     wrapper,
     container
   } = styles
-  console.log('currentWeather', city)
+  // console.log('currentWeather', city)
+  // const route = useRoute()
+  // console.log('test', route)
+
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.container}>
         {/* customize returned images using custom hook maybe */}
         <Feather name="sun" size={100} color="black" />
         {/* style * */}
+        <Text> {timeDay} </Text>
         <Text> {city} </Text>
         <Text style={styles.temp}> {conditionDesc} </Text>
         <Text style={styles.temp}> {temp} </Text>
-        <Text style={styles.feels}> Feels like {feelsLike}</Text>
+        <Text style={styles.feels}> (Feels like {feelsLike})</Text>
         {/* maybe return this info here from forecast apo call as well? or omit */}
-        <RowText
+        {/* Reapply later */}
+        {/* <RowText
           wrapper={highLowWrapper}
           textOne={'High: 50'}
           textOneStyle={highLow}
           textTwo={'Low: 40'}
           textTwoStyle={highLow}
-        />
+        /> */}
+        {/*  */}
       </View>
       {/* <RowText
         wrapper={bodyWrapper}

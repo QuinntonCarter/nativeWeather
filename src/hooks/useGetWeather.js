@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import * as Location from 'expo-location'
 
-export default function useGetWeather() {
+export default function useGetWeather(props) {
   // returned
   const [loading, setLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState(null)
@@ -10,7 +10,7 @@ export default function useGetWeather() {
   const [latitude, setLatitude] = useState([])
   const [longitude, setLongitude] = useState([])
   const [location, setLocation] = useState()
-
+  console.log('get current weather ran', props)
   const { WEATHER_API_KEY } = process.env
 
   const fetchWeatherData = useMemo(async () => {
@@ -19,6 +19,9 @@ export default function useGetWeather() {
       return
     }
     try {
+      if (props == 'Upcoming') {
+        console.log('viewing Upcoming tab')
+      }
       const res = await fetch(
         `https://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${latitude},${longitude}&aqi=yes`
       )

@@ -1,4 +1,5 @@
 import { memo } from 'react'
+// import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Feather } from '@expo/vector-icons'
 import CurrentWeather from '../screens/CurrentWeather'
@@ -16,19 +17,15 @@ export default memo(function Tabs({ weather }) {
     feelslike_f,
     feelslike_c,
     condition: { text: conditionDesc },
-    // gust_mph,
-    // gust_kph,
+    gust_mph,
+    gust_kph,
     wind_dir,
     precip_in,
     precip_mm,
     humidity,
     air_quality
   } = weather.current
-  console.log(
-    'test',
-    moment(weather.location.localtime).format('MMM DD YYYY LTS')
-  )
-  // destructor weather's props here and send individual pieces down to prevent uncessary re-renders
+
   return (
     <Navigator
       screenOptions={{
@@ -90,7 +87,21 @@ export default memo(function Tabs({ weather }) {
         }}
       >
         {/* upcoming forecast for area */}
-        {() => <UpcomingWeather city={name} />}
+        {({ navigation }) => (
+          console.log(navigation),
+          (
+            // navigation.addListener('focus', () => {
+            // navigation.addListener((e) => (
+            // return (
+            <UpcomingWeather
+              isFocused={navigation.isFocused((bool) => bool)}
+              city={name}
+            />
+          )
+          // )
+          // })
+          // ))
+        )}
       </Screen>
       <Screen
         name={'City'}

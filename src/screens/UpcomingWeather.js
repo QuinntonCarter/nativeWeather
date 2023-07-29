@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import {
   FlatList,
   SafeAreaView,
@@ -47,8 +48,18 @@ function Empty() {
   )
 }
 
-export default function UpcomingWeather() {
+export default function UpcomingWeather(props) {
   const { container, image } = styles
+  // const isFocused = useIsFocused()
+  // const { name } = useRoute()
+  // async function getUpcomingForecast() {
+  //   const res = useGetWeather(name)
+  // console.log('res getweather', navigation)
+  // }
+  // const focused = navigation.isFocused((e) => e
+  useEffect(() => {
+    console.log('focus change in upcoming', props)
+  }, [props])
   return (
     <SafeAreaView style={container}>
       <Text> upcoming weather </Text>

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import Tabs from './src/components/Tabs'
 import LoadingIndicator from './src/components/LoadingIndicator'
@@ -12,14 +13,19 @@ const styles = StyleSheet.create({
 })
 
 export default function App() {
+  // const [routeLocation, setRouteLocation] = useState(false)
   const [loading, errorMsg, weather, location] = useGetWeather()
   // ** check if location area and weather location area match, if don't, return time with results in tab **
-  // useCallback to cache api response? look @ tyler's code in repcap.com
-  console.log('app loaded')
+  // const navigation = useNavigation((state) => state.name)
+  // console.log('app loaded, useNavigation', navigation)
   if (weather && weather.current && !loading) {
     return (
       <NavigationContainer>
-        <Tabs weather={weather} />
+        <Tabs
+          // routeLocation={routeLocation}
+          // setRouteLocation={setRouteLocation}
+          weather={weather}
+        />
       </NavigationContainer>
     )
   }
